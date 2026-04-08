@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* Custom theme configuration */
+@theme inline {
+  /* Background colors */
+  --color-bg: #0d0d0d;
+  --color-bg-surface: #161616;
+  --color-bg-elevated: #1e1e1e;
+  --color-bg-border: #262626;
+  
+  /* Accent colors */
+  --color-accent: #7c3aed;
+  --color-accent-hover: #6d28d9;
+  --color-accent-light: #a78bfa;
+  
+  /* Status colors */
+  --color-status-success: #10b981;
+  --color-status-error: #ef4444;
+  --color-status-warning: #f59e0b;
+  --color-status-queued: #737373;
+  --color-status-running: #7c3aed;
+  
+  /* Text colors */
+  --color-text-primary: #f5f5f5;
+  --color-text-secondary: #a3a3a3;
+  --color-text-muted: #737373;
+  --color-text-terminal: #4ade80;
+}
+
+/* Base styles */
+:root {
+  --background: hsl(0 0% 5%);
+  --foreground: hsl(0 0% 96%);
+}
+
+* {
+  border-color: var(--color-bg-border);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom animations */
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-orbit {
+  animation: orbit 8s linear infinite;
+}
+
+/* Scrollbar styling for terminal */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-bg-elevated);
+}

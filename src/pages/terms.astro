@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Terms of Service — GitOrbit">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl font-bold mb-8">Terms of Service</h1>
+    
+    <div class="prose prose-invert max-w-none">
+      <p class="text-text-secondary">Last updated: April 8, 2026</p>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Acceptance of Terms</h2>
+      <p class="text-text-secondary">
+        By accessing and using GitOrbit, you accept and agree to be bound by these Terms of Service. 
+        If you do not agree to these terms, do not use the application.
+      </p>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Service Description</h2>
+      <p class="text-text-secondary">
+        GitOrbit is a static web application that provides a control plane for managing GitHub repositories 
+        and orchestrating AI coding agents. The application has zero backend infrastructure — all data 
+        processing happens in your browser, and all compute happens via GitHub Actions.
+      </p>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">User Responsibilities</h2>
+      <ul class="list-disc list-inside space-y-2 text-text-secondary">
+        <li>You are responsible for securing your GitHub Personal Access Token</li>
+        <li>You must comply with GitHub's Terms of Service and acceptable use policies</li>
+        <li>You are responsible for all actions taken using your token</li>
+        <li>You must ensure you have the necessary permissions for any repositories you manage</li>
+      </ul>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">No Warranty</h2>
+      <p class="text-text-secondary">
+        GitOrbit is provided "as is" without warranty of any kind. We make no guarantees about 
+        availability, performance, or fitness for a particular purpose.
+      </p>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Limitation of Liability</h2>
+      <p class="text-text-secondary">
+        In no event shall GitOrbit be liable for any indirect, incidental, special, consequential, 
+        or punitive damages arising from your use of the application.
+      </p>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Changes to Terms</h2>
+      <p class="text-text-secondary">
+        We reserve the right to modify these terms at any time. Continued use of the application 
+        after changes constitutes acceptance of the new terms.
+      </p>
+    </div>
+  </main>
+</BaseLayout>

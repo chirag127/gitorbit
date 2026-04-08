@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TokenInput from '../components/auth/TokenInput.tsx';
+---
+
+<BaseLayout title="Setup — GitOrbit">
+  <main class="min-h-screen flex items-center justify-center px-4 py-12">
+    <TokenInput client:only="react" />
+  </main>
+</BaseLayout>

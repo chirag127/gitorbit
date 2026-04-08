@@ -1,0 +1,107 @@
+name: GitOrbit AI Agent
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'GitOrbit run ID'
+        required: true
+        type: string
+      target_repo:
+        description: 'Target repository (owner/name)'
+        required: true
+        type: string
+      prompt:
+        description: 'Instruction for AI agent'
+        required: true
+        type: string
+      agent_type:
+        description: 'Agent type (qwen|claude)'
+        required: false
+        default: 'qwen'
+        type: string
+
+concurrency:
+  group: gitorbit-run-${{ inputs.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  execute-agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # 1. Checkout target repository
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.target_repo }}
+          token: ${{ secrets.GITORBIT_PAT }}
+          fetch-depth: 0
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 3. Install AI Agent (pluggable)
+      - name: Install AI Agent
+        run: |
+          if [ "${{ inputs.agent_type }}" = "claude" ]; then
+            echo "Installing Claude Code..."
+            npm install -g @anthropic-ai/claude-code@latest
+            echo "AGENT_BIN=claude" >> $GITHUB_ENV
+            echo "AGENT_FLAGS=-p --yes" >> $GITHUB_ENV
+          else
+            echo "Installing Qwen Code..."
+            npm install -g @qwen-code/qwen-code@latest
+            echo "AGENT_BIN=qwen" >> $GITHUB_ENV
+            echo "AGENT_FLAGS=-p --yolo" >> $GITHUB_ENV
+          fi
+
+      # 4. Execute AI Agent
+      - name: Execute AI Agent
+        run: |
+          set -o pipefail
+          set +e
+          mkdir -p .gitorbit/logs
+          $AGENT_BIN $AGENT_FLAGS "${{ inputs.prompt }}" 2>&1 | tee .gitorbit/logs/${{ inputs.run_id }}.log
+          EXIT_CODE=$?
+          set -e
+          echo "EXIT_CODE=$EXIT_CODE" >> $GITHUB_ENV
+        env:
+          QWEN_API_KEY: ${{ secrets.QWEN_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      # 5. Commit and push changes
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitOrbit Agent"
+          git config user.email "gitorbit[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --staged --quiet; then
+            git commit -m "feat(gitorbit): ${{ inputs.prompt }}" \
+              -m "Run ID: ${{ inputs.run_id }}" \
+              -m "Agent: ${{ inputs.agent_type }}"
+            git push
+          fi
+
+      # 6. Save execution logs
+      - name: Save execution logs
+        if: always()
+        run: |
+          git config user.name "GitOrbit Agent"
+          git config user.email "gitorbit[bot]@users.noreply.github.com"
+          git add .gitorbit/logs/ || true
+          if ! git diff --staged --quiet; then
+            git commit -m "logs(gitorbit): run ${{ inputs.run_id }}"
+            git push || true
+          fi
+
+      # 7. Final exit
+      - name: Final exit
+        run: |
+          if [ "${{ env.EXIT_CODE }}" != "0" ]; then
+            echo "Agent run failed with exit code ${{ env.EXIT_CODE }}"
+            exit 1
+          fi

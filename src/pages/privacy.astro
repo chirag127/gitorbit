@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Privacy Policy — GitOrbit">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl font-bold mb-8">Privacy Policy</h1>
+    
+    <div class="prose prose-invert max-w-none">
+      <p class="text-text-secondary">Last updated: April 8, 2026</p>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Overview</h2>
+      <p class="text-text-secondary">
+        GitOrbit is a zero-backend static web application. We do not collect, store, or process any personal information. 
+        All authentication happens through your GitHub Personal Access Token (PAT), which is stored exclusively in your 
+        browser's localStorage and is never transmitted to any server other than GitHub's API.
+      </p>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Data We Don't Collect</h2>
+      <ul class="list-disc list-inside space-y-2 text-text-secondary">
+        <li>No personal information</li>
+        <li>No usage analytics</li>
+        <li>No error tracking or crash reporting</li>
+        <li>No cookies or tracking pixels</li>
+        <li>No server-side logs (there is no server)</li>
+      </ul>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Token Storage</h2>
+      <p class="text-text-secondary">
+        Your GitHub PAT is stored in your browser's localStorage and is only sent to api.github.com and 
+        raw.githubusercontent.com when making authenticated requests to the GitHub API. The token is never 
+        logged, sent to third parties, or stored anywhere else.
+      </p>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">State Data</h2>
+      <p class="text-text-secondary">
+        All application state (repositories, runs, prompts) is stored in a dedicated GitHub repository that you control. 
+        This data is subject to GitHub's privacy policy and terms of service.
+      </p>
+      
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Contact</h2>
+      <p class="text-text-secondary">
+        For privacy-related questions, please contact us at{' '}
+        <a href="mailto:whyiswhen@gmail.com" class="text-accent-light hover:underline">
+          whyiswhen@gmail.com
+        </a>.
+      </p>
+    </div>
+  </main>
+</BaseLayout>

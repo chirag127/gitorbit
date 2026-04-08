@@ -34,7 +34,7 @@ interface PatMeta {
 export function setPat(token: string): void {
   // Sanitize: strip whitespace, ensure no shell injection chars
   const sanitized = token.trim().replace(/[\r\n\t]/g, '');
-  
+
   if (!sanitized || sanitized.length < 10) {
     throw new Error('Invalid token format');
   }
@@ -80,8 +80,6 @@ export function updatePatMeta(meta: Partial<PatMeta>): void {
 
 ```ts
 // src/lib/pat-validation.ts
-import { githubFetch } from './github-api';
-
 export async function validatePat(token: string): Promise<{
   valid: boolean;
   username: string | null;
@@ -171,6 +169,47 @@ export function handleTokenExpiry(): void {
 }
 ```
 
+## AUTH GUARD COMPONENT
+
+```tsx
+// src/components/auth/AuthGuard.tsx
+import { useEffect, useState } from 'react';
+import { hasPat } from '../../lib/pat-storage';
+
+interface AuthGuardProps {
+  children: React.ReactNode;
+}
+
+export function AuthGuard({ children }: AuthGuardProps) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (!hasPat()) {
+        window.location.href = '/setup';
+        return;
+      }
+
+      setIsAuthenticated(true);
+      setIsLoading(false);
+    };
+
+    checkAuth();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  return <>{children}</>;
+}
+```
+
 ## RULES FOR EVERY TASK
 
 1. PAT must only ever appear in `Authorization: Bearer` request headers.
@@ -181,3 +220,5 @@ export function handleTokenExpiry(): void {
 6. Fine-grained PATs are preferred over classic tokens — they have narrower scope.
 7. Token must only be sent to `api.github.com` and `raw.githubusercontent.com`.
 8. Implement token validation on the setup page before accepting user input.
+9. Show username and avatar from `GET /user` response after validation.
+10. Provide clear logout button that calls `clearPat()` and redirects.

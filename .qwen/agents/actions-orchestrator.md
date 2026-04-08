@@ -16,48 +16,54 @@ You are the DevOps automation engineer for GitOrbit. You design GitHub Actions w
 GitOrbit has no backend server. The only compute happens inside GitHub Actions runners. The workflow:
 1. Is triggered via `workflow_dispatch` from the browser (using the GitHub REST API)
 2. Clones a target repository
-3. Runs Qwen Code CLI headlessly to process the prompt
+3. Runs AI agent CLI headlessly to process the prompt
 4. Commits any changes back to the target repo
-5. Saves terminal output as a log file in the gitorbit-state repo
+5. Saves terminal output as a log file in the target repo
 
-## QWEN CODE CLI COMMAND
+## CRITICAL API UPDATE (Feb 2026)
 
-The correct headless command (Qwen Code v0.14+):
+**Workflow dispatch API now returns run IDs!** As of February 19, 2026, the workflow_dispatch API response includes workflow run details. This means:
+- No need to poll `/actions/runs` to find the triggered run
+- The response includes `id` (workflow run ID) directly
+- Simplifies the frontend polling logic significantly
 
-```bash
-qwen -p "<prompt>" --yolo
-```
+## PLUGGABLE AGENT ARCHITECTURE
 
-- `-p` or `--prompt`: Run in headless mode with the given prompt
-- `--yolo` or `-y`: Auto-approve all tool executions (no human confirmation)
+The workflow supports multiple AI agents via the `agent_type` input:
 
-This runs completely autonomously — no interactive prompts, no user input required.
+| Agent | Package | Binary | Flags | Env Var |
+|-------|---------|--------|-------|---------|
+| Qwen Code | `@qwen-code/qwen-code@latest` | `qwen` | `-p --yolo` | `QWEN_API_KEY` |
+| Claude Code | `@anthropic-ai/claude-code@latest` | `claude` | `-p --yes` | `ANTHROPIC_API_KEY` |
 
-## WORKFLOW SPECIFICATION: qwen-agent.yml
+## WORKFLOW SPECIFICATION: gitorbit-agent.yml
 
-Location: `gitorbit-state/.github/workflows/qwen-agent.yml`
+Location: `.github/workflows/gitorbit-agent.yml`
 
 ### Inputs
 | Input | Type | Description |
 |-------|------|-------------|
 | run_id | string | Unique ID (e.g. `run_1718000000_abc12345`) |
 | target_repo | string | Full repo name (e.g. `octocat/hello-world`) |
-| prompt | string | Natural language instruction for Qwen |
+| prompt | string | Natural language instruction for AI agent |
+| agent_type | string | Agent type: `qwen` (default) or `claude` |
 
 ### Secrets
 | Secret | Description |
 |--------|-------------|
-| GH_PAT | Fine-grained PAT: Contents r/w, Workflows r/w, Metadata r |
+| GITORBIT_PAT | Fine-grained PAT: Contents r/w, Workflows r/w, Metadata r, Actions r/w |
+| QWEN_API_KEY | API key for Qwen Code (if using Qwen agent) |
+| ANTHROPIC_API_KEY | API key for Claude Code (if using Claude agent) |
 
 ### Job Structure
 
 ```yaml
-name: GitOrbit Qwen Agent
+name: GitOrbit AI Agent
 on:
   workflow_dispatch:
     inputs:
       run_id:
-        description: 'Run ID'
+        description: 'GitOrbit run ID'
         required: true
         type: string
       target_repo:
@@ -65,88 +71,97 @@ on:
         required: true
         type: string
       prompt:
-        description: 'Instruction for Qwen'
+        description: 'Instruction for AI agent'
         required: true
+        type: string
+      agent_type:
+        description: 'Agent type (qwen|claude)'
+        required: false
+        default: 'qwen'
         type: string
 
 concurrency:
-  group: gitorbit-run-${{ github.event.inputs.run_id }}
+  group: gitorbit-run-${{ inputs.run_id }}
   cancel-in-progress: false
 
 jobs:
-  run-qwen-agent:
+  execute-agent:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
     steps:
-      # 1. Initialize log file
-      - name: Initialize log file
-        run: |
-          mkdir -p /tmp/gitorbit
-          echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] GitOrbit Qwen Agent starting | run=${{ inputs.run_id }} | target=${{ inputs.target_repo }}" > /tmp/gitorbit/${{ inputs.run_id }}.log
+      # 1. Checkout target repository
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.target_repo }}
+          token: ${{ secrets.GITORBIT_PAT }}
+          fetch-depth: 0
 
-      # 2. Clone target repository
-      - name: Clone target repository
-        run: |
-          git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ inputs.target_repo }}.git ./target-repo 2>&1 | tee -a /tmp/gitorbit/${{ inputs.run_id }}.log
-          echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Cloned ${{ inputs.target_repo }}" >> /tmp/gitorbit/${{ inputs.run_id }}.log
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
-      # 3. Install Qwen Code CLI
-      - name: Install Qwen Code CLI
+      # 3. Install AI Agent (pluggable)
+      - name: Install AI Agent
         run: |
-          npm install -g @qwen-code/qwen-code@latest 2>&1 | tee -a /tmp/gitorbit/${{ inputs.run_id }}.log
-          echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Qwen installed: $(qwen --version 2>&1)" >> /tmp/gitorbit/${{ inputs.run_id }}.log
+          if [ "${{ inputs.agent_type }}" = "claude" ]; then
+            echo "Installing Claude Code..."
+            npm install -g @anthropic-ai/claude-code@latest
+            echo "AGENT_BIN=claude" >> $GITHUB_ENV
+            echo "AGENT_FLAGS=-p --yes" >> $GITHUB_ENV
+          else
+            echo "Installing Qwen Code..."
+            npm install -g @qwen-code/qwen-code@latest
+            echo "AGENT_BIN=qwen" >> $GITHUB_ENV
+            echo "AGENT_FLAGS=-p --yolo" >> $GITHUB_ENV
+          fi
 
-      # 4. Run Qwen headlessly
-      - name: Run Qwen Code CLI
+      # 4. Execute AI Agent
+      - name: Execute AI Agent
         run: |
-          cd ./target-repo
+          set -o pipefail
           set +e
-          qwen -p "${{ inputs.prompt }}" --yolo 2>&1 | tee -a /tmp/gitorbit/${{ inputs.run_id }}.log
+          mkdir -p .gitorbit/logs
+          $AGENT_BIN $AGENT_FLAGS "${{ inputs.prompt }}" 2>&1 | tee .gitorbit/logs/${{ inputs.run_id }}.log
           EXIT_CODE=$?
           set -e
-          echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Qwen finished with exit code $EXIT_CODE" >> /tmp/gitorbit/${{ inputs.run_id }}.log
           echo "EXIT_CODE=$EXIT_CODE" >> $GITHUB_ENV
+        env:
+          QWEN_API_KEY: ${{ secrets.QWEN_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
       # 5. Commit and push changes
       - name: Commit and push changes
         run: |
-          cd ./target-repo
-          git config user.name "GitOrbit Bot"
-          git config user.email "bot@gitorbit.oriz.in"
+          git config user.name "GitOrbit Agent"
+          git config user.email "gitorbit[bot]@users.noreply.github.com"
           git add -A
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: apply GitOrbit AI changes
-
-            Run ID: ${{ inputs.run_id }}
-            Prompt: ${{ inputs.prompt }}
-
-            Applied by GitOrbit Qwen Agent
-            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if ! git diff --staged --quiet; then
+            git commit -m "feat(gitorbit): ${{ inputs.prompt }}" \
+              -m "Run ID: ${{ inputs.run_id }}" \
+              -m "Agent: ${{ inputs.agent_type }}"
             git push
-            COMMIT_SHA=$(git rev-parse HEAD)
-            echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Changes committed. SHA=$COMMIT_SHA" >> /tmp/gitorbit/${{ inputs.run_id }}.log
-          else
-            echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] No changes produced by Qwen" >> /tmp/gitorbit/${{ inputs.run_id }}.log
           fi
 
-      # 6. Save log to state repo
-      - name: Save log to state repo
+      # 6. Save execution logs
+      - name: Save execution logs
+        if: always()
         run: |
-          echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Run complete. Status=$([ "$EXIT_CODE" = "0" ] && echo SUCCESS || echo FAILED)" >> /tmp/gitorbit/${{ inputs.run_id }}.log
-          git config --global user.name "GitOrbit Bot"
-          git config --global user.email "bot@gitorbit.oriz.in"
-          mkdir -p logs
-          cp /tmp/gitorbit/${{ inputs.run_id }}.log logs/${{ inputs.run_id }}.log
-          git add logs/${{ inputs.run_id }}.log
-          git commit -m "logs: add run ${{ inputs.run_id }}" || echo "No log changes to commit"
-          git push || echo "Push failed but log is local"
+          git config user.name "GitOrbit Agent"
+          git config user.email "gitorbit[bot]@users.noreply.github.com"
+          git add .gitorbit/logs/ || true
+          if ! git diff --staged --quiet; then
+            git commit -m "logs(gitorbit): run ${{ inputs.run_id }}"
+            git push || true
+          fi
 
       # 7. Final exit
-      - name: Final exit
         run: |
           if [ "$EXIT_CODE" != "0" ]; then
-            echo "Qwen run failed (exit code $EXIT_CODE)"
+            echo "Agent run failed with exit code $EXIT_CODE"
             exit 1
           fi
 ```
@@ -156,26 +171,31 @@ jobs:
 The frontend dispatches the workflow using:
 
 ```ts
-POST /repos/{state_repo_owner}/{state_repo_name}/actions/workflows/qwen-agent.yml/dispatches
+POST /repos/{owner}/{repo}/actions/workflows/gitorbit-agent.yml/dispatches
 {
   "ref": "main",
   "inputs": {
     "run_id": "run_1234567890_abc12345",
     "target_repo": "owner/repo",
-    "prompt": "Generate a README for this repository"
+    "prompt": "Generate a README for this Repository",
+    "agent_type": "qwen"
   }
 }
 ```
 
+**As of Feb 2026**, this response now includes the workflow run ID directly, eliminating the need to poll `/actions/runs` to find it.
+
 ## RULES FOR EVERY TASK
 
 1. Always use `qwen -p "<prompt>" --yolo` — never `qwen code --prompt` (wrong syntax).
-2. Always use `set +e` around the Qwen step to capture exit code without failing the workflow.
+2. Always use `set +e` around the agent step to capture exit code without failing the workflow.
 3. Every step must have a human-readable `name` field.
 4. Wrap error-prone steps in handlers that append failures to the log before re-throwing.
 5. The `concurrency` group must be keyed on `run_id` to prevent duplicate runs.
 6. Always set `timeout-minutes: 30` to prevent runaway jobs.
 7. Use `git config user.name/email` before any commit in the target repo context.
-8. Log files must be saved to `logs/{run_id}.log` in the gitorbit-state repo.
+8. Log files must be saved to `.gitorbit/logs/{run_id}.log` in the target repo.
 9. Never hardcode secrets — always reference via `${{ secrets.NAME }}`.
-10. The workflow must not trigger infinite loops — commits made by the bot should not re-trigger the workflow (use `if: github.actor != 'GitOrbit Bot'` guard if needed).
+10. The workflow must not trigger infinite loops — commits made by the bot should not re-trigger the workflow.
+11. Support pluggable agents: Qwen Code (default) and Claude Code via `agent_type` input.
+12. Use `GITORBIT_PAT` secret name (not `GH_PAT`) for consistency across the project.

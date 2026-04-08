@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="GitOrbit — Your entire GitHub universe, one orbit away.">
+  <!-- Navigation -->
+  <nav class="border-b border-bg-border bg-bg-surface/80 backdrop-blur-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <span class="font-bold text-lg">GitOrbit</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="/setup" class="text-sm text-text-secondary hover:text-text-primary transition-colors">
+            Setup
+          </a>
+          <a href="/dashboard" class="text-sm text-text-secondary hover:text-text-primary transition-colors">
+            Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="relative overflow-hidden">
+      <!-- Decorative orbit rings -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="w-[600px] h-[600px] rounded-full border border-bg-border/30 animate-orbit opacity-20" />
+        <div class="absolute w-[400px] h-[400px] rounded-full border border-bg-border/50 animate-orbit opacity-30" style="animation-duration: 12s; animation-direction: reverse;" />
+        <div class="absolute w-[200px] h-[200px] rounded-full border border-accent/20 animate-orbit opacity-40" style="animation-duration: 6s;" />
+      </div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 sm:py-48">
+        <div class="text-center">
+          <h1 class="text-4xl sm:text-6xl font-bold tracking-tight">
+            Your entire{' '}
+            <span class="text-accent">GitHub universe</span>
+            , one orbit away.
+          </h1>
+          <p class="mt-6 text-lg sm:text-xl text-text-secondary max-w-2xl mx-auto">
+            A zero-backend control plane to manage GitHub repositories and orchestrate autonomous AI coding agents. 
+            Deploy AI prompts, track runs, and watch live logs — all from your browser.
+          </p>
+          <div class="mt-10 flex items-center justify-center gap-4">
+            <a 
+              href="/setup" 
+              class="inline-flex items-center px-6 py-3 rounded-lg bg-accent hover:bg-accent-hover text-white font-medium transition-colors"
+            >
+              Get Started
+              <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+            <a 
+              href="/dashboard" 
+              class="inline-flex items-center px-6 py-3 rounded-lg border border-bg-border hover:border-accent/50 text-text-primary font-medium transition-colors"
+            >
+              Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="border-t border-bg-border bg-bg-surface/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="p-6 rounded-lg border border-bg-border bg-bg">
+            <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-accent-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">Bring Your Own Token</h3>
+            <p class="text-text-secondary">
+              Use your own GitHub PAT. Stored securely in your browser. Never sent to any third-party server.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-lg border border-bg-border bg-bg">
+            <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-accent-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">AI Agent Orchestration</h3>
+            <p class="text-text-secondary">
+              Dispatch Qwen Code or Claude Code to any repository. Watch live logs as the agent works.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-lg border border-bg-border bg-bg">
+            <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-accent-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">Zero Backend</h3>
+            <p class="text-text-secondary">
+              100% static site. All state lives in a GitHub repo. All compute happens in GitHub Actions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-bg-border py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-sm text-text-muted">
+          © 2026 GitOrbit. Deployed on Cloudflare Pages.
+        </p>
+        <div class="flex items-center gap-6">
+          <a href="/privacy" class="text-sm text-text-muted hover:text-text-secondary transition-colors">
+            Privacy
+          </a>
+          <a href="/terms" class="text-sm text-text-muted hover:text-text-secondary transition-colors">
+            Terms
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</BaseLayout>
