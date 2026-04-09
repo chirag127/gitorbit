@@ -3,48 +3,92 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Privacy Policy — GitOrbit">
-  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <h1 class="text-4xl font-bold mb-8">Privacy Policy</h1>
-    
-    <div class="prose prose-invert max-w-none">
-      <p class="text-text-secondary">Last updated: April 8, 2026</p>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Overview</h2>
-      <p class="text-text-secondary">
-        GitOrbit is a zero-backend static web application. We do not collect, store, or process any personal information. 
-        All authentication happens through your GitHub Personal Access Token (PAT), which is stored exclusively in your 
-        browser's localStorage and is never transmitted to any server other than GitHub's API.
-      </p>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Data We Don't Collect</h2>
-      <ul class="list-disc list-inside space-y-2 text-text-secondary">
-        <li>No personal information</li>
-        <li>No usage analytics</li>
-        <li>No error tracking or crash reporting</li>
-        <li>No cookies or tracking pixels</li>
-        <li>No server-side logs (there is no server)</li>
-      </ul>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Token Storage</h2>
-      <p class="text-text-secondary">
-        Your GitHub PAT is stored in your browser's localStorage and is only sent to api.github.com and 
-        raw.githubusercontent.com when making authenticated requests to the GitHub API. The token is never 
-        logged, sent to third parties, or stored anywhere else.
-      </p>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">State Data</h2>
-      <p class="text-text-secondary">
-        All application state (repositories, runs, prompts) is stored in a dedicated GitHub repository that you control. 
-        This data is subject to GitHub's privacy policy and terms of service.
-      </p>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Contact</h2>
-      <p class="text-text-secondary">
-        For privacy-related questions, please contact us at{' '}
-        <a href="mailto:whyiswhen@gmail.com" class="text-accent-light hover:underline">
-          whyiswhen@gmail.com
-        </a>.
-      </p>
-    </div>
-  </main>
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Back link -->
+    <a
+      href="/"
+      class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-secondary transition-colors mb-10 group"
+    >
+      <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      Back to home
+    </a>
+
+    <article class="space-y-10">
+      <div>
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+          Privacy <span class="gradient-text">Policy</span>
+        </h1>
+        <p class="mt-3 text-sm text-text-muted">Last updated: April 8, 2026</p>
+      </div>
+
+      <div class="space-y-8 text-text-secondary leading-relaxed">
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">Overview</h2>
+          <p>
+            GitOrbit is a zero-backend static web application. We do not
+            collect, store, or process any personal information. All
+            authentication happens through your GitHub Personal Access Token
+            (PAT), which is stored exclusively in your browser&apos;s
+            localStorage and is never transmitted to any server other than
+            GitHub&apos;s API.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">Data We Don&apos;t Collect</h2>
+          <ul class="space-y-2">
+            {[
+              'No personal information',
+              'No usage analytics',
+              'No error tracking or crash reporting',
+              'No cookies or tracking pixels',
+              'No server-side logs (there is no server)',
+            ].map((item) => (
+              <li class="flex items-start gap-2.5">
+                <svg class="w-4 h-4 text-success flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">Token Storage</h2>
+          <p>
+            Your GitHub PAT is stored in your browser&apos;s localStorage and
+            is only sent to api.github.com and raw.githubusercontent.com when
+            making authenticated requests to the GitHub API. The token is never
+            logged, sent to third parties, or stored anywhere else.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">State Data</h2>
+          <p>
+            All application state (repositories, runs, prompts) is stored in a
+            dedicated GitHub repository that you control. This data is subject
+            to GitHub&apos;s privacy policy and terms of service.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">Contact</h2>
+          <p>
+            For privacy-related questions, please contact us at{' '}
+            <a
+              href="mailto:whyiswhen@gmail.com"
+              class="text-accent-light hover:underline"
+            >
+              whyiswhen@gmail.com
+            </a>
+            .
+          </p>
+        </section>
+      </div>
+    </article>
+  </section>
 </BaseLayout>

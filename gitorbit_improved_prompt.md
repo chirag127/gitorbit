@@ -1,6 +1,6 @@
 # GitOrbit — Improved Master Prompt
 
-> A zero-backend static web control plane to manage GitHub repositories and orchestrate an autonomous AI coding agent, deployed at `gitorbit.oriz.in`.
+> A zero-backend static web control plane to manage GitHub repositories and orchestrate an autonomous AI coding agent, deployed at `gitorbit-k.oriz.in`.
 
 ---
 

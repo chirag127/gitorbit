@@ -4,7 +4,10 @@ import TokenInput from '../components/auth/TokenInput.tsx';
 ---
 
 <BaseLayout title="Setup — GitOrbit">
-  <main class="min-h-screen flex items-center justify-center px-4 py-12">
-    <TokenInput client:only="react" />
-  </main>
+  <section class="relative min-h-screen flex items-center justify-center px-4 py-16">
+    <!-- Background glow -->
+    <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
+    <TokenInput client:load />
+  </section>
 </BaseLayout>

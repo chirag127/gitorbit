@@ -21,7 +21,7 @@ export function useGitHubAuth() {
 
   const validateToken = useCallback(async (token?: string) => {
     const tokenToUse = token || localStorage.getItem('gitorbit_pat');
-    
+
     if (!tokenToUse) {
       setAuth({
         isAuthenticated: false,
@@ -34,6 +34,7 @@ export function useGitHubAuth() {
     }
 
     try {
+      console.log('[GitHub Auth] Validating token...');
       const res = await fetch('https://api.github.com/user', {
         headers: {
           'Authorization': `Bearer ${tokenToUse.trim()}`,
@@ -41,6 +42,8 @@ export function useGitHubAuth() {
           'X-GitHub-Api-Version': '2022-11-28',
         },
       });
+
+      console.log('[GitHub Auth] Response status:', res.status);
 
       if (!res.ok) {
         if (res.status === 401) {
@@ -54,10 +57,13 @@ export function useGitHubAuth() {
           });
           return false;
         }
-        throw new Error(`API error: ${res.status}`);
+        const errorText = await res.text().catch(() => 'Unknown error');
+        console.error('[GitHub Auth] API error:', res.status, errorText);
+        throw new Error(`GitHub API error: ${res.status}`);
       }
 
       const user = await res.json();
+      console.log('[GitHub Auth] User validated:', user.login);
       const scopes = res.headers.get('X-OAuth-Scopes')?.split(',').map(s => s.trim()) || [];
 
       updatePatMeta({ username: user.login, scopes });
@@ -72,6 +78,7 @@ export function useGitHubAuth() {
 
       return true;
     } catch (err) {
+      console.error('[GitHub Auth] Validation error:', err);
       setAuth({
         isAuthenticated: false,
         isLoading: false,

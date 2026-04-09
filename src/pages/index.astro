@@ -3,133 +3,437 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="GitOrbit — Your entire GitHub universe, one orbit away.">
-  <!-- Navigation -->
-  <nav class="border-b border-bg-border bg-bg-surface/80 backdrop-blur-sm sticky top-0 z-50">
+  <!-- ════════════════════════════════════════════════
+       HERO SECTION
+       ════════════════════════════════════════════════ -->
+  <section class="relative overflow-hidden py-20 sm:py-32 lg:py-40">
+    <!-- Decorative orbit rings -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+      <div class="relative w-[700px] h-[700px]">
+        <!-- Outer ring -->
+        <div
+          class="absolute inset-0 rounded-full border border-border/20"
+          style="animation: orbit 30s linear infinite;"
+        />
+        <!-- Middle ring -->
+        <div
+          class="absolute inset-8 rounded-full border border-border/30"
+          style="animation: orbit 20s linear infinite reverse;"
+        />
+        <!-- Inner ring -->
+        <div
+          class="absolute inset-16 rounded-full border border-primary/15"
+          style="animation: orbit 12s linear infinite;"
+        />
+        <!-- Accent ring -->
+        <div
+          class="absolute inset-24 rounded-full border border-primary/10"
+          style="animation: orbit 8s linear infinite reverse;"
+        />
+        <!-- Orbiting dot -->
+        <div
+          class="absolute w-2 h-2 rounded-full bg-primary glow-ring"
+          style="top: 0; left: 50%; animation: orbit 12s linear infinite; transform-origin: 0 168px;"
+        />
+      </div>
+    </div>
+
+    <!-- Nebula glow accents -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-4xl mx-auto">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-border/60 glass text-xs font-mono text-text-secondary mb-8 animate-fade-in">
+          <span class="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+          Zero backend &middot; 100% static &middot; Your token, your control
+        </div>
+
+        <!-- Main heading -->
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight animate-slide-up">
+          Your entire{' '}
+          <span class="gradient-text">GitHub universe</span>,
+          <br class="hidden sm:block" />
+          one orbit away.
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="mt-6 sm:mt-8 text-base sm:text-lg lg:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed animate-slide-up" style="animation-delay: 0.15s;">
+          A zero-backend control plane to manage GitHub repositories and
+          orchestrate autonomous AI coding agents. Deploy prompts, track runs,
+          and watch live logs &mdash; all from your browser.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style="animation-delay: 0.3s;">
+          <a
+            href="/setup"
+            class="group inline-flex items-center px-7 py-3.5 rounded-lg bg-primary hover:bg-accent-hover text-white font-semibold text-sm transition-all glow-ring"
+          >
+            Get Started
+            <svg
+              class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              />
+            </svg>
+          </a>
+          <a
+            href="/dashboard"
+            class="inline-flex items-center px-7 py-3.5 rounded-lg border border-border/60 hover:border-primary/50 text-foreground font-semibold text-sm transition-colors glass"
+          >
+            Open Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════
+       STATS BAR
+       ════════════════════════════════════════════════ -->
+  <section class="border-y border-border/60 glass">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="animate-fade-in">
+          <p class="text-3xl sm:text-4xl font-bold gradient-text">$0</p>
+          <p class="mt-1 text-sm text-text-muted">Backend cost</p>
+        </div>
+        <div class="animate-fade-in" style="animation-delay: 0.1s;">
+          <p class="text-3xl sm:text-4xl font-bold gradient-text">100%</p>
+          <p class="mt-1 text-sm text-text-muted">Static site</p>
+        </div>
+        <div class="animate-fade-in" style="animation-delay: 0.2s;">
+          <p class="text-3xl sm:text-4xl font-bold gradient-text">0</p>
+          <p class="mt-1 text-sm text-text-muted">Data collected</p>
+        </div>
+        <div class="animate-fade-in" style="animation-delay: 0.3s;">
+          <p class="text-3xl sm:text-4xl font-bold gradient-text">&#8734;</p>
+          <p class="mt-1 text-sm text-text-muted">AI runs</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════
+       FEATURES
+       ════════════════════════════════════════════════ -->
+  <section class="py-20 sm:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
-            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"/>
-              <circle cx="12" cy="12" r="3"/>
+      <!-- Section header -->
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">
+          Built for <span class="gradient-text">developers</span>, not DevOps
+        </h2>
+        <p class="mt-4 text-text-secondary leading-relaxed">
+          Everything you need to dispatch AI agents to your repositories &mdash;
+          without managing a single server.
+        </p>
+      </div>
+
+      <!-- Feature cards -->
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Feature 1: BYO Token -->
+        <div
+          class="group rounded-xl border border-border/60 bg-card/40 p-6 glass hover:border-primary/50 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors"
+          >
+            <svg
+              class="w-6 h-6 text-accent-light"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11
+                  17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0
+                  01.293-.707l5.964-5.964A6 6 0 1121 9z"
+              />
             </svg>
           </div>
-          <span class="font-bold text-lg">GitOrbit</span>
-        </div>
-        <div class="flex items-center gap-4">
-          <a href="/setup" class="text-sm text-text-secondary hover:text-text-primary transition-colors">
-            Setup
-          </a>
-          <a href="/dashboard" class="text-sm text-text-secondary hover:text-text-primary transition-colors">
-            Dashboard
-          </a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <main>
-    <section class="relative overflow-hidden">
-      <!-- Decorative orbit rings -->
-      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div class="w-[600px] h-[600px] rounded-full border border-bg-border/30 animate-orbit opacity-20" />
-        <div class="absolute w-[400px] h-[400px] rounded-full border border-bg-border/50 animate-orbit opacity-30" style="animation-duration: 12s; animation-direction: reverse;" />
-        <div class="absolute w-[200px] h-[200px] rounded-full border border-accent/20 animate-orbit opacity-40" style="animation-duration: 6s;" />
-      </div>
-
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 sm:py-48">
-        <div class="text-center">
-          <h1 class="text-4xl sm:text-6xl font-bold tracking-tight">
-            Your entire{' '}
-            <span class="text-accent">GitHub universe</span>
-            , one orbit away.
-          </h1>
-          <p class="mt-6 text-lg sm:text-xl text-text-secondary max-w-2xl mx-auto">
-            A zero-backend control plane to manage GitHub repositories and orchestrate autonomous AI coding agents. 
-            Deploy AI prompts, track runs, and watch live logs — all from your browser.
+          <h3 class="text-lg font-semibold mb-2">Bring Your Own Token</h3>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Use your own GitHub PAT, stored exclusively in your browser.
+            Never sent to any third-party server. Full control, zero risk.
           </p>
-          <div class="mt-10 flex items-center justify-center gap-4">
-            <a 
-              href="/setup" 
-              class="inline-flex items-center px-6 py-3 rounded-lg bg-accent hover:bg-accent-hover text-white font-medium transition-colors"
-            >
-              Get Started
-              <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>
-            <a 
-              href="/dashboard" 
-              class="inline-flex items-center px-6 py-3 rounded-lg border border-bg-border hover:border-accent/50 text-text-primary font-medium transition-colors"
-            >
-              Dashboard
-            </a>
-          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Features -->
-    <section class="border-t border-bg-border bg-bg-surface/50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          <div class="p-6 rounded-lg border border-bg-border bg-bg">
-            <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-accent-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold mb-2">Bring Your Own Token</h3>
-            <p class="text-text-secondary">
-              Use your own GitHub PAT. Stored securely in your browser. Never sent to any third-party server.
-            </p>
+        <!-- Feature 2: AI Orchestration -->
+        <div
+          class="group rounded-xl border border-border/60 bg-card/40 p-6 glass hover:border-primary/50 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors"
+          >
+            <svg
+              class="w-6 h-6 text-accent-light"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z"
+              />
+            </svg>
           </div>
-
-          <div class="p-6 rounded-lg border border-bg-border bg-bg">
-            <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-accent-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold mb-2">AI Agent Orchestration</h3>
-            <p class="text-text-secondary">
-              Dispatch Qwen Code or Claude Code to any repository. Watch live logs as the agent works.
-            </p>
-          </div>
-
-          <div class="p-6 rounded-lg border border-bg-border bg-bg">
-            <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-accent-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-            <h3 class="text-lg font-semibold mb-2">Zero Backend</h3>
-            <p class="text-text-secondary">
-              100% static site. All state lives in a GitHub repo. All compute happens in GitHub Actions.
-            </p>
-          </div>
+          <h3 class="text-lg font-semibold mb-2">AI Agent Orchestration</h3>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Dispatch Qwen Code or Claude Code to any repository. Watch live
+            terminal logs as the agent reads, writes, and commits.
+          </p>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-bg-border py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p class="text-sm text-text-muted">
-          © 2026 GitOrbit. Deployed on Cloudflare Pages.
-        </p>
-        <div class="flex items-center gap-6">
-          <a href="/privacy" class="text-sm text-text-muted hover:text-text-secondary transition-colors">
-            Privacy
-          </a>
-          <a href="/terms" class="text-sm text-text-muted hover:text-text-secondary transition-colors">
-            Terms
-          </a>
+        <!-- Feature 3: Zero Backend -->
+        <div
+          class="group rounded-xl border border-border/60 bg-card/40 p-6 glass hover:border-primary/50 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors"
+          >
+            <svg
+              class="w-6 h-6 text-accent-light"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8
+                  4m0-10L4 7m8 4v10M4 7v10l8 4"
+              />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Zero Backend</h3>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            100% static site deployed on Cloudflare Pages. All state lives in a
+            GitHub repo. All compute happens in GitHub Actions.
+          </p>
+        </div>
+
+        <!-- Feature 4: Live Logs -->
+        <div
+          class="group rounded-xl border border-border/60 bg-card/40 p-6 glass hover:border-primary/50 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors"
+          >
+            <svg
+              class="w-6 h-6 text-accent-light"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0
+                  002-2V6a2 2 0 00-2-2H5a2 2 0 00-2
+                  2v12a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Live Terminal Logs</h3>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Real-time log streaming from GitHub Actions. Copy, download, and
+            monitor every line of your AI agent's work.
+          </p>
+        </div>
+
+        <!-- Feature 5: Repo Management -->
+        <div
+          class="group rounded-xl border border-border/60 bg-card/40 p-6 glass hover:border-primary/50 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors"
+          >
+            <svg
+              class="w-6 h-6 text-accent-light"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 7v10a2 2 0 002 2h14a2 2 0
+                  002-2V9a2 2 0 00-2-2h-6l-2-2H5a2
+                  2 0 00-2 2z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Repo Management</h3>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Organize repositories, manage state, and configure workflows from a
+            single unified dashboard.
+          </p>
+        </div>
+
+        <!-- Feature 6: Privacy First -->
+        <div
+          class="group rounded-xl border border-border/60 bg-card/40 p-6 glass hover:border-primary/50 transition-all duration-300"
+        >
+          <div
+            class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors"
+          >
+            <svg
+              class="w-6 h-6 text-accent-light"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955
+                  11.955 0 0112 2.944a11.955 11.955
+                  0 01-8.618 3.04A12.02 12.02 0
+                  003 9c0 5.591 3.824 10.29 9 11.622
+                  5.176-1.332 9-6.03 9-11.622 0-1.042
+                  -.133-2.052-.382-3.016z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">Privacy First</h3>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            No analytics, no tracking, no cookies. Your token never leaves your
+            browser except to talk directly to GitHub.
+          </p>
         </div>
       </div>
     </div>
-  </footer>
+  </section>
+
+  <!-- ════════════════════════════════════════════════
+       CODE PREVIEW
+       ════════════════════════════════════════════════ -->
+  <section class="py-20 sm:py-28 border-t border-border/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Text -->
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">
+            As simple as <span class="gradient-text">paste &amp; go</span>
+          </h2>
+          <p class="mt-4 text-text-secondary leading-relaxed">
+            No configuration files, no CLI tools, no infrastructure to manage.
+            Just enter your GitHub token and start dispatching AI agents to any
+            repository.
+          </p>
+          <ul class="mt-6 space-y-3">
+            {[
+              ['Generate a fine-grained PAT on GitHub', 'check'],
+              ['Paste it into GitOrbit', 'check'],
+              ['Select a repository and run an agent', 'check'],
+            ].map(([text]) => (
+              <li class="flex items-start gap-3">
+                <div class="mt-0.5 w-5 h-5 rounded-full bg-success/20 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-3 h-3 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span class="text-sm text-text-secondary">{text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Right: Terminal preview -->
+        <div class="rounded-xl border border-border/60 overflow-hidden glass">
+          {/* Terminal title bar */}
+          <div class="flex items-center gap-2 px-4 py-3 border-b border-border/60 bg-bg-surface/60">
+            <div class="w-3 h-3 rounded-full bg-destructive/80" />
+            <div class="w-3 h-3 rounded-full bg-warning/80" />
+            <div class="w-3 h-3 rounded-full bg-success/80" />
+            <span class="ml-3 text-xs text-text-muted font-mono">
+              gitorbit &mdash; bash
+            </span>
+          </div>
+          {/* Terminal body */}
+          <div class="font-mono text-sm text-text-terminal p-5 space-y-1 bg-[#0a0a0a]">
+            <p><span class="text-accent-light">$</span> gitorbit init</p>
+            <p class="text-text-muted">&nbsp;&nbsp;✨ GitOrbit initialized</p>
+            <p class="text-text-muted">&nbsp;&nbsp;🔑 Token stored locally</p>
+            <p>&nbsp;</p>
+            <p><span class="text-accent-light">$</span> gitorbit run --repo my-app</p>
+            <p class="text-text-muted">&nbsp;&nbsp;🚀 Dispatching Qwen Code agent...</p>
+            <p class="text-text-muted">&nbsp;&nbsp;📦 Cloning repository...</p>
+            <p class="text-text-muted">&nbsp;&nbsp;📝 Reading prompt.yaml...</p>
+            <p class="text-text-muted">&nbsp;&nbsp;⚡ Running AI workflow...</p>
+            <p class="text-success">&nbsp;&nbsp;✓ Commit pushed (a3f8c2d)</p>
+            <p class="text-success">&nbsp;&nbsp;✓ Pull request created #42</p>
+            <p>&nbsp;</p>
+            <p><span class="text-accent-light">$</span> <span class="animate-pulse">▊</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════
+       CTA SECTION
+       ════════════════════════════════════════════════ -->
+  <section class="py-20 sm:py-28 border-t border-border/60">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">
+        Ready to put your repos in <span class="gradient-text">orbit</span>?
+      </h2>
+      <p class="mt-4 text-text-secondary leading-relaxed max-w-xl mx-auto">
+        Join the zero-backend revolution. Manage your GitHub universe from a
+        single control plane.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/setup"
+          class="group inline-flex items-center px-8 py-4 rounded-lg bg-primary hover:bg-accent-hover text-white font-semibold transition-all glow-ring text-sm"
+        >
+          Start for Free
+          <svg
+            class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 7l5 5m0 0l-5 5m5-5H6"
+            />
+          </svg>
+        </a>
+        <a
+          href="https://github.com/chirag127/gitorbit"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center px-8 py-4 rounded-lg border border-border/60 hover:border-primary/50 text-foreground font-semibold transition-colors glass text-sm"
+        >
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

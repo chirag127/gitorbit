@@ -3,50 +3,93 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Terms of Service — GitOrbit">
-  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <h1 class="text-4xl font-bold mb-8">Terms of Service</h1>
-    
-    <div class="prose prose-invert max-w-none">
-      <p class="text-text-secondary">Last updated: April 8, 2026</p>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Acceptance of Terms</h2>
-      <p class="text-text-secondary">
-        By accessing and using GitOrbit, you accept and agree to be bound by these Terms of Service. 
-        If you do not agree to these terms, do not use the application.
-      </p>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Service Description</h2>
-      <p class="text-text-secondary">
-        GitOrbit is a static web application that provides a control plane for managing GitHub repositories 
-        and orchestrating AI coding agents. The application has zero backend infrastructure — all data 
-        processing happens in your browser, and all compute happens via GitHub Actions.
-      </p>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">User Responsibilities</h2>
-      <ul class="list-disc list-inside space-y-2 text-text-secondary">
-        <li>You are responsible for securing your GitHub Personal Access Token</li>
-        <li>You must comply with GitHub's Terms of Service and acceptable use policies</li>
-        <li>You are responsible for all actions taken using your token</li>
-        <li>You must ensure you have the necessary permissions for any repositories you manage</li>
-      </ul>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">No Warranty</h2>
-      <p class="text-text-secondary">
-        GitOrbit is provided "as is" without warranty of any kind. We make no guarantees about 
-        availability, performance, or fitness for a particular purpose.
-      </p>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Limitation of Liability</h2>
-      <p class="text-text-secondary">
-        In no event shall GitOrbit be liable for any indirect, incidental, special, consequential, 
-        or punitive damages arising from your use of the application.
-      </p>
-      
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Changes to Terms</h2>
-      <p class="text-text-secondary">
-        We reserve the right to modify these terms at any time. Continued use of the application 
-        after changes constitutes acceptance of the new terms.
-      </p>
-    </div>
-  </main>
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+    <!-- Back link -->
+    <a
+      href="/"
+      class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-secondary transition-colors mb-10 group"
+    >
+      <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      Back to home
+    </a>
+
+    <article class="space-y-10">
+      <div>
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+          Terms of <span class="gradient-text">Service</span>
+        </h1>
+        <p class="mt-3 text-sm text-text-muted">Last updated: April 8, 2026</p>
+      </div>
+
+      <div class="space-y-8 text-text-secondary leading-relaxed">
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">Acceptance of Terms</h2>
+          <p>
+            By accessing and using GitOrbit, you accept and agree to be bound
+            by these Terms of Service. If you do not agree to these terms, do
+            not use the application.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">Service Description</h2>
+          <p>
+            GitOrbit is a static web application that provides a control plane
+            for managing GitHub repositories and orchestrating AI coding
+            agents. The application has zero backend infrastructure &mdash; all
+            data processing happens in your browser, and all compute happens
+            via GitHub Actions.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">User Responsibilities</h2>
+          <ul class="space-y-2">
+            {[
+              'You are responsible for securing your GitHub Personal Access Token',
+              'You must comply with GitHub\'s Terms of Service and acceptable use policies',
+              'You are responsible for all actions taken using your token',
+              'You must ensure you have the necessary permissions for any repositories you manage',
+            ].map((item) => (
+              <li class="flex items-start gap-2.5">
+                <svg class="w-4 h-4 text-accent-light flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">No Warranty</h2>
+          <p>
+            GitOrbit is provided &ldquo;as is&rdquo; without warranty of any
+            kind. We make no guarantees about availability, performance, or
+            fitness for a particular purpose.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">Limitation of Liability</h2>
+          <p>
+            In no event shall GitOrbit be liable for any indirect, incidental,
+            special, consequential, or punitive damages arising from your use
+            of the application.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-foreground mb-3">Changes to Terms</h2>
+          <p>
+            We reserve the right to modify these terms at any time. Continued
+            use of the application after changes constitutes acceptance of the
+            new terms.
+          </p>
+        </section>
+      </div>
+    </article>
+  </section>
 </BaseLayout>

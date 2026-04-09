@@ -2,17 +2,66 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="404 — Page Not Found | GitOrbit">
-  <main class="min-h-screen flex items-center justify-center px-4">
-    <div class="text-center">
-      <h1 class="text-8xl font-bold text-accent mb-4">404</h1>
-      <p class="text-xl text-text-secondary mb-8">Page not found</p>
-      <a 
-        href="/" 
-        class="inline-flex items-center px-6 py-3 rounded-lg bg-accent hover:bg-accent-hover text-white font-medium transition-colors"
-      >
-        Go Home
-      </a>
+<BaseLayout title="404 — Lost in Space | GitOrbit">
+  <section class="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+    <!-- Nebula background -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
+    <!-- Orbiting rings -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div class="relative w-64 h-64 sm:w-80 sm:h-80">
+        <div
+          class="absolute inset-0 rounded-full border border-border/20"
+          style="animation: orbit 20s linear infinite;"
+        />
+        <div
+          class="absolute inset-8 rounded-full border border-border/30"
+          style="animation: orbit 14s linear infinite reverse;"
+        />
+        <div
+          class="absolute inset-16 rounded-full border border-primary/10"
+          style="animation: orbit 8s linear infinite;"
+        />
+        <div
+          class="absolute w-2 h-2 rounded-full bg-primary/40"
+          style="top: 0; left: 50%; animation: orbit 8s linear infinite; transform-origin: 0 88px;"
+        />
+      </div>
     </div>
-  </main>
+
+    <div class="relative text-center animate-slide-up">
+      <!-- 404 number -->
+      <p class="text-8xl sm:text-9xl font-extrabold gradient-text leading-none">
+        404
+      </p>
+
+      <!-- Subtitle -->
+      <p class="mt-4 text-lg sm:text-xl text-text-secondary font-medium">
+        Lost in the void
+      </p>
+      <p class="mt-2 text-sm text-text-muted max-w-md mx-auto">
+        This page has drifted beyond the orbit of our known universe.
+        Let&apos;s get you back to safety.
+      </p>
+
+      <!-- CTA -->
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/"
+          class="group inline-flex items-center px-6 py-3 rounded-lg bg-primary hover:bg-accent-hover text-white font-semibold text-sm transition-all glow-ring"
+        >
+          <svg class="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </a>
+        <a
+          href="/dashboard"
+          class="inline-flex items-center px-6 py-3 rounded-lg border border-border/60 hover:border-primary/50 text-foreground font-semibold text-sm transition-colors glass"
+        >
+          Open Dashboard
+        </a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,0 +1,12 @@
+name = "gitorbit"
+compatibility_date = "2026-04-08"
+
+[build]
+command = ""
+watch_dir = "dist"
+
+[build.upload]
+format = "static"
+
+[site]
+bucket = "./dist"

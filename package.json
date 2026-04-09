@@ -9,10 +9,17 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "workerd"
+    ]
+  },
   "dependencies": {
     "@astrojs/react": "^4.2.1",
     "@astrojs/tailwind": "^6.0.2",
     "astro": "^6.1.4",
+    "esbuild": "^0.28.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zod": "^4.3.6"
@@ -20,6 +27,7 @@
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "wrangler": "^4.81.0"
   }
 }

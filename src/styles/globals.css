@@ -1,79 +1,137 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Custom theme configuration */
-@theme inline {
-  /* Background colors */
-  --color-bg: #0d0d0d;
-  --color-bg-surface: #161616;
-  --color-bg-elevated: #1e1e1e;
-  --color-bg-border: #262626;
-  
-  /* Accent colors */
-  --color-accent: #7c3aed;
-  --color-accent-hover: #6d28d9;
-  --color-accent-light: #a78bfa;
-  
-  /* Status colors */
-  --color-status-success: #10b981;
-  --color-status-error: #ef4444;
-  --color-status-warning: #f59e0b;
-  --color-status-queued: #737373;
-  --color-status-running: #7c3aed;
-  
-  /* Text colors */
-  --color-text-primary: #f5f5f5;
-  --color-text-secondary: #a3a3a3;
-  --color-text-muted: #737373;
-  --color-text-terminal: #4ade80;
-}
-
-/* Base styles */
-:root {
-  --background: hsl(0 0% 5%);
-  --foreground: hsl(0 0% 96%);
-}
-
-* {
-  border-color: var(--color-bg-border);
-}
-
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Custom animations */
-@keyframes orbit {
-  from {
-    transform: rotate(0deg);
+@layer base {
+  * {
+    @apply border-border;
   }
-  to {
-    transform: rotate(360deg);
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-card;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground;
   }
 }
 
-.animate-orbit {
-  animation: orbit 8s linear infinite;
-}
+@layer components {
+  .glass {
+    background: rgba(22, 22, 22, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(38, 38, 38, 0.8);
+  }
 
-/* Scrollbar styling for terminal */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+  .gradient-text {
+    background: linear-gradient(135deg, #a78bfa, #7c3aed, #6366f1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-::-webkit-scrollbar-track {
-  background: var(--color-bg-surface);
-}
+  .glow-ring {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3), 0 0 40px rgba(124, 58, 237, 0.1);
+  }
 
-::-webkit-scrollbar-thumb {
-  background: var(--color-bg-border);
-  border-radius: 4px;
-}
+  .glow-ring:hover {
+    box-shadow: 0 0 25px rgba(124, 58, 237, 0.5), 0 0 50px rgba(124, 58, 237, 0.2);
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-bg-elevated);
+  .nebula-bg {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(124, 58, 237, 0.08), transparent),
+      radial-gradient(ellipse 60% 80% at 80% 80%, rgba(99, 102, 241, 0.06), transparent),
+      radial-gradient(ellipse 50% 50% at 50% 50%, rgba(139, 92, 246, 0.04), transparent);
+  }
+
+  .stars, .stars::before, .stars::after {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background-image:
+      radial-gradient(1px 1px at 25px 30px, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 50px 70px, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1.2px 1.2px at 120px 40px, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 180px 90px, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1.5px 1.5px at 250px 20px, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 310px 60px, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 370px 100px, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1.2px 1.2px at 430px 50px, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1px 1px at 490px 80px, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 560px 30px, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1.5px 1.5px at 620px 70px, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 690px 20px, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1px 1px at 750px 90px, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1.2px 1.2px at 820px 40px, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 880px 60px, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 940px 100px, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1.5px 1.5px at 150px 150px, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 350px 180px, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 550px 130px, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1.2px 1.2px at 750px 170px, rgba(255,255,255,0.3), transparent);
+    background-repeat: repeat;
+    background-size: 1000px 200px;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+
+  .stars::before {
+    animation-delay: -1.5s;
+    animation-duration: 5s;
+    opacity: 0.6;
+    transform: scale(0.8);
+  }
+
+  .stars::after {
+    animation-delay: -3s;
+    animation-duration: 6s;
+    opacity: 0.4;
+    transform: scale(1.2);
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(1rem) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 150ms ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 200ms ease-out;
+  }
 }
